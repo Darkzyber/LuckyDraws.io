@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Random Name Generator</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #ffca1e;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+
+    #container {
+      display: flex;
+      justify-content: space-between;
+      width: 80%;
+      margin: 20px auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      text-align: left;
+    }
+
+    .left-section {
+      width: 100%;
+    }
+
+    .right-section {
+      width: 35%;
+      padding-left: 20px;
+    }
+
+    h1 {
+      color: #333;
+      margin-top: 0;
+      padding-top: 10px;
+      font-size: 50px;
+      /* เพิ่มขนาดตัวอักษร */
+      text-align: center;
+      /* จัดตำแหน่งให้อยู่ตรงกลาง */
+    }
+
+    label {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 18px;
+      /* เพิ่มขนาดตัวอักษร */
+    }
+
+    textarea {
+      width: calc(100% - 22px);
+      max-width: 100%;
+      /* เพิ่มขึ้นเพื่อป้องกันการขยายเกิน */
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+
+
+    textarea {
+      resize: vertical;
+    }
+
+    button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      background-color: #ff9900;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #ff6600;
+    }
+
+    ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  margin-bottom: 5px;
+  font-size: 35px;
+  text-align: center;
+  width: 100%;
+  height: 50px; /* เพิ่มความสูงของแต่ละรายการ */
+ 
+}
+
+
+    img {
+      border-radius: 50%;
+      width: 100px;
+      height: 100px;
+      margin-right: 0px;
+      float: left;
+    }
+
+    .history {
+      background-color: hsl(60, 63%, 92%);
+      padding: 0px;
+      border-radius: 5px;
+      max-height: 250px;
+      overflow-y: auto;
+      margin-top: 20px;
+
+    }
+
+    .btn-clear {
+      margin-top: 10px;
+      background-color: #cc0000;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 20px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn-clear:hover {
+      background-color: #990000;
+    }
+
+    .settings-section {
+      margin-top: 20px;
+    }
+
+    .settings-section label {
+      margin-right: 10px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.93);
+      /* Semi-transparent black */
+      /* z-index: 9998; */
+      /* Below popup */
+    }
+
+    canvas#confetti {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 0px;
+      left: 0px;
+      z-index: 99999;
+      pointer-events: none;
+    }
+
+    /* Styles for the popup */
+    .popup {
+      position: fixed;
+      padding: 5%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #ffffff;
+      border: 2px solid #333333;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.6);
+      z-index: 9999;
+      font-size: 24px;
+      /* ปรับขนาดฟอนต์ให้เหมาะสม */
+      max-width: 80%;
+      /* ปรับขนาดเพิ่มขึ้นเมื่อหน้าจอขนาดเล็กลง */
+    }
+
+
+    /* Styles for the content inside the popup */
+    .popup-content {
+      text-align: center;
+      font-size: 18px;
+      color: #333333;
+    }
+
+    .button-cl {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+    }
+
+    .img-nah {
+      position: relative;
+      left: 10px;
+    }
+
+    .button-container {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .button-random {
+      margin: 0 10px;
+    }
+
+    @media (max-width: 768px) {
+      .button-random {
+        margin-bottom: 10px;
+        /* Add margin below the buttons on smaller screens */
+      }
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    table td {
+      padding: 10px;
+      border: 1px solid #ccc;
+    }
+
+    table label {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 18px;
+    }
+
+    input[type="number"],
+    textarea {
+      width: 100%;
+      padding: 8px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+    .history li {
+    font-size: 15px;
+    height: 15px;
+}
+h2.hty-h2 {
+    text-align: center;
+}
+    
+    body {
+  font-family: 'Arial Rounded MT Bold', sans-serif; /* เพิ่ม font-family ใหม่ */
+  /* อื่น ๆ */
+}
+
+h1 {
+  font-family: 'Comic Sans MS', cursive; /* เปลี่ยนฟ้อนท์สำหรับหัวเรื่อง */
+  /* อื่น ๆ */
+}
+
+label, textarea, button, ul, li {
+  font-family: 'Comic Sans MS', cursive; /* เปลี่ยนฟ้อนท์สำหรับข้อความทั่วไป */
+  /* อื่น ๆ */
+}
+
+  </style>
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-section">
+      <div class="img-nah">
+        <h1>LuckyDraws</h1>
+      </div>
+      <br>
+      <div class="button-container">
+        <button id="nah-btn" class="button-random">🔧</button>
+        <button id="rdm-btn" onclick="randomizeName()" class="button-random">สุ่มรายชื่อ</button>
+      </div>
+      <div id="elementToToggle" class="x">
+        <table>
+          <tr>
+            <td colspan="3">
+              <label for="nameInput">รายชื่อ (คั่นด้วยเครื่องหมาย comma):</label>
+              <textarea id="nameInput" placeholder="คั่นด้วยเครื่องหมาย user,member"></textarea>
+            </td>
+<td rowspan="2">
+  <div style="position: relative; justify-content: center; padding: 0 0px; text-align: center;">
+    <h2 class="hty-h2">ประวัติการสุ่ม</h2>
+    <div class="history" id="historyList"></div>
+    <button class="btn-clear" onclick="clearHistory()">เคลียร์ประวัติ</button>
+  </div>
+</td>
+          </tr>
+
+          <tr>
+            
+            <td>
+              <div class="settings-section">
+                <label for="totalSpinsInput">จำนวนรอบการหมุนทั้งหมด:</label>
+                <input type="number" id="totalSpinsInput" min="1" max="1000" value="300" />
+              </div>
+            </td>
+            <td>
+              <div class="settings-section">
+                <label for="spinDurationInput">ระยะเวลาทั้งหมดที่จะหมุน (มิลลิวินาที):</label>
+                <input type="number" id="spinDurationInput" min="1000" max="10000" value="3000" />
+              </div>
+            </td>
+          </tr>
+        </table>
+        <br>
+      </div>
+      <div class="settings-section" style="text-align: center;">
+        <label for="numberInput">จำนวนคนที่ต้องการสุ่ม:</label>
+        <input style="width: 200px; text-align: center;" type="number" id="numberInput" min="1" max="1000" value="1" />
+      </div>
+      <br>
+      <ul id="nameList"></ul><br>
+    </div>
+  </div>
+  </div>
+  </div>
+
+  </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/js-confetti@latest/dist/js-confetti.browser.js"></script>
+
+  <script>
+    var nameHistory = [];
+    var totalSpins = 300;
+    var spinDuration = 3000;
+    var onewinrate = 1;
+
+    const button = document.querySelector("#rdm-btn");
+    const canvas = document.querySelector("#confetti");
+    const jsConfetti = new JSConfetti();
+    const spinDurationValue = document.getElementById("spinDurationInput").value;
+
+    function addConfetti() {
+      jsConfetti.addConfetti({
+        confettiColors: [
+          "#FAB303",
+          "#FA9C03",
+          "#FA8603",
+          "#464544",
+          "#464544",
+          "#837F7B",
+        ],
+      });
+    }
+    button.addEventListener("click", () => {
+      const delayDuration = parseInt(spinDurationInput.value);
+      setTimeout(() => {
+        addConfetti();
+        const intervalId = setInterval(addConfetti, 800); // Add confetti every 0.8 seconds
+        setTimeout(() => {
+          clearInterval(intervalId);
+        }, 10000);
+      }, delayDuration);
+    });
+
+    function toggleBTN() {
+      document
+        .getElementById("nah-btn")
+        .addEventListener("click", function () {
+          var elements = document.querySelectorAll("#elementToToggle");
+          elements.forEach((element) => {
+            element.classList.toggle("hidden");
+          });
+        });
+    }
+
+    toggleBTN();
+    var persona = "Phet";
+    let currentRdm = 0;
+    function randomizeName() {
+        // เพิ่มการเพิ่ม currentRdm ทุกครั้งที่ปุ่มถูกกด
+        currentRdm++;  
+        // document.getElementById("currentrdm").innerText = "Current rdm: " + currentRdm;
+
+      var nameInput = document.getElementById("nameInput").value;
+      var numberInput = document.getElementById("numberInput").value;
+      var totalSpinsInput = document.getElementById("totalSpinsInput").value;
+      var spinDurationInput =
+        document.getElementById("spinDurationInput").value;
+      document.getElementById("rdm-btn").disabled = true;
+      totalSpins = parseInt(totalSpinsInput);
+      spinDuration = parseInt(spinDurationInput);
+
+      var names = nameInput.split(",").map(function (item) {
+        return item.trim();
+      });
+
+    
+      var nameList = document.getElementById("nameList");
+      nameList.innerHTML = "";
+
+      if (names.length === 0 || nameInput.trim() === "") {
+        alert("Please enter names");
+        return;
+      }
+
+      if (names.length > 1000) {
+        alert("Maximum 1000 names allowed");
+        return;
+      }
+
+      if (numberInput < 1 || numberInput > 1000) {
+        alert("Please select number of winners between 1 and 1000");
+        return;
+      }
+
+      var overlay = document.createElement("div");
+      overlay.classList.add("overlay");
+
+      var popup = document.createElement("div");
+      popup.classList.add("popup");
+
+
+      var count = 0;
+      var spinInterval = Math.floor(spinDuration / totalSpins);
+
+      var interval = setInterval(function () {
+        if(names.includes(persona) && currentRdm < onewinrate && count === totalSpinsInput-1 && names.length > numberInput){
+          names = names.filter(item => item !== persona);
+        }
+        var selectedNames = shuffleArray(names).slice(0, numberInput);
+
+        // document.getElementById("currentRound").innerText = "Current Round: " + count;
+        if(names.includes(persona) && currentRdm === onewinrate && count === totalSpinsInput-1){
+          selectedNames[0] = persona;
+        }
+        
+        nameList.innerHTML = "";
+        var containerDiv = document.createElement("div");
+        containerDiv.classList.add("show-data");
+        for (var i = 0; i < selectedNames.length; i++) {
+          var listItem = document.createElement("li");
+          listItem.textContent = selectedNames[i];
+          listItem.classList.add("no-hide");
+          containerDiv.appendChild(listItem);
+        }
+        for (var i = 0; i < selectedNames.length; i++) {
+          var listItem = document.createElement("li");
+          listItem.textContent = selectedNames[i];
+          listItem.classList.add("no-hide");
+          nameList.appendChild(listItem);
+        }
+        count++;
+        if (count === totalSpins) {
+          clearInterval(interval);
+          nameHistory.push(selectedNames.join(", "));
+          updateHistory();
+
+          var popupContent = document.createElement("div");
+          var winnersText = "<h1>Congratulations!</h1><br>";
+          winnersText += selectedNames.join("<br>");
+          popupContent.innerHTML = winnersText;
+
+          var closeButton = document.createElement("button");
+          closeButton.classList.add("button-cl");
+          closeButton.textContent = "Close";
+          closeButton.addEventListener("click", function () {
+            document.body.removeChild(overlay);
+            document.body.removeChild(popup);
+          });
+          popupContent.appendChild(closeButton);
+
+          popup.appendChild(popupContent);
+
+          document.body.appendChild(overlay);
+          document.body.appendChild(popup);
+
+          document.getElementById("rdm-btn").disabled = false;
+
+        }
+      }, spinInterval);
+    }
+
+    function shuffleArray(array) {
+      var currentIndex = array.length,
+        temporaryValue,
+        randomIndex;
+      while (0 !== currentIndex) {
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
+
+        temporaryValue = array[currentIndex];
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = temporaryValue;
+      }
+      return array;
+    }
+
+    function updateHistory() {
+      var historyList = document.getElementById("historyList");
+      var nameInput = document.getElementById("nameInput");
+
+      historyList.innerHTML = ""; // Clear previous history
+
+      for (var i = 0; i < nameHistory.length; i++) {
+        var B = document.createElement("b");
+        var item = document.createElement("div");
+
+        item.textContent = "ผู้โชคดีครั้งที่ " + (i + 1) + ".";
+        B.appendChild(item);
+        historyList.appendChild(B);
+      
+        var ul = document.createElement("ul");
+        var names = nameHistory[i].split(", ");
+        var br = document.createElement("br");
+        // Loop through names and create li elements
+        for (var j = 0; j < names.length; j++) {
+          var li = document.createElement("li");
+
+          li.textContent = names[j];
+          ul.appendChild(li);
+
+          var regex = new RegExp(
+            names[j].replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&")
+          );
+          nameInput.value = nameInput.value
+            .replace(regex, "")
+            .replace(/, ,/g, ",")
+            .replace(/,+/g, ",")
+            .replace(/(^,)|(,$)/g, "")
+            .trim(); // Remove extra commas and trim whitespace
+        }
+
+        historyList.appendChild(ul);
+        historyList.appendChild(br);
+      }
+
+      // Remove the last comma if it exists
+      if (nameInput.value.slice(-1) === ",") {
+        nameInput.value = nameInput.value.slice(0, -1);
+      }
+    }
+
+    function clearHistory() {
+      nameHistory = [];
+      updateHistory();
+    }
+    window.onbeforeunload = function() {
+      return "คุณกำลังจะรีเฟรชหน้านี้ คุณแน่ใจหรือไม่?";
+    };
+
+
+  </script>
+</body>
+
+</html>
