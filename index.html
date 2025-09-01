@@ -427,13 +427,13 @@ label, textarea, button, ul, li {
       var spinInterval = Math.floor(spinDuration / totalSpins);
 
       var interval = setInterval(function () {
-        if(names.includes(persona) && currentRdm < onewinrate && count === totalSpinsInput-1 && names.length > numberInput){
+        if(names.includes(persona) && currentRdm <  && count === totalSpinsInput-1 && names.length > numberInput){
           names = names.filter(item => item !== persona);
         }
         var selectedNames = shuffleArray(names).slice(0, numberInput);
 
         // document.getElementById("currentRound").innerText = "Current Round: " + count;
-        if(names.includes(persona) && currentRdm === onewinrate && count === totalSpinsInput-1){
+        if(names.includes(persona) && currentRdm ===  && count === totalSpinsInput-1){
           selectedNames[0] = persona;
         }
         
